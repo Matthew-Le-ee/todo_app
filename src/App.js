@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Axios from "axios";
+import Axios from "./axios";
 
 const App = () => {
 	const [text, setText] = useState("");
 	const [List, setList] = useState([]);
 	const postText = () => {
-		Axios.post("http://localhost:8080/post", {
+		Axios.post(`/post`, {
 			text,
 		});
 		setText('')
 	};
 	const updateList = (id) => {
-		Axios.put(`http://localhost:8080/post/${id}`,{
-			text
-		})
+		Axios.put(`/post/${id}`, {
+			text,
+		});
 	};
 	const deleteList = (id) => {
-		Axios.delete(`http://localhost:8080/post/${id}`);
+		Axios.delete(`/post/${id}`);
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setText('')
 	};
 	useEffect(() => {
-		Axios.get("http://localhost:8080/post")
+		Axios.get("/post")
 		.then(res=> {
 			setList(res.data)
 		})
