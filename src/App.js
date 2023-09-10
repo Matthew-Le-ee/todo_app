@@ -6,6 +6,10 @@ const App = () => {
 	const [text, setText] = useState("");
 	const [List, setList] = useState([]);
 	const postText = () => {
+		if(text.trim()=== ""){
+			alert('please enter a valid task')
+			return;
+		}
 		Axios.post(`/post`, {
 			text,
 		});
