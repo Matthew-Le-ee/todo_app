@@ -5,33 +5,39 @@ import Axios from "./axios";
 const App = () => {
 	const [text, setText] = useState("");
 	const [List, setList] = useState([]);
-	const postText = () => {
-		if(text.trim()=== ""){
-			alert('please enter a valid task')
-			return;
-		}
-		Axios.post(`/post`, {
+	const postText = async () => {
+	    const res =	await Axios.post(`/post`, {
 			text,
 		});
-		setText('')
+		setList((prevList)=> [...prevList, res.data]);
 	};
-	const updateList = (id) => {
-		Axios.put(`/post/${id}`, {
+
+	const updateList = async  (id) => {
+	   const res =  await Axios.put(`/post/${id}`, {
 			text,
 		});
+		setList((prevList)=> prevList.map((post)=> post._id === id ? res.data : post));
 	};
-	const deleteList = (id) => {
-		Axios.delete(`/post/${id}`);
+
+	const deleteList = async (id) => {
+	    await Axios.delete(`/post/${id}`);
+		setList((prevList) => prevList.filter((post)=> post._id !== id ));
 	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setText('')
 	};
+
 	const fetchData = () => {
 		Axios.get('/post')
-		.then((res)=> setList(res.data));
+		.then((res)=> setList(res.data))
 	}
-	fetchData();
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
 	return (
 		<>
 			<div className="flex justify-center items-center pt-10">
