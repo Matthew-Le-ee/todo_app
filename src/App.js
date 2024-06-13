@@ -5,22 +5,22 @@ import Axios from "./axios";
 const App = () => {
 	const [text, setText] = useState("");
 	const [List, setList] = useState([]);
-	const postText = async () => {
-	    const res =	await Axios.post(`/post`, {
-			text,
-		});
-		setList((prevList)=> [...prevList, res.data]);
+	const postText = () => {
+	    Axios.post(`/post`, {text})
+		.then((res)=> 
+		 setList((prevList)=> [...prevList,res.data])
+		)
 	};
 
-	const updateList = async  (id) => {
-	   const res =  await Axios.put(`/post/${id}`, {
-			text,
-		});
-		setList((prevList)=> prevList.map((post)=> post._id === id ? res.data : post));
+	const updateList = (id) => {
+	    Axios.put(`/post/${id}`, {text})
+		.then((res)=> 
+		   setList((prevList)=> prevList.map((post)=> post._id === id ? res.data : post))
+		)
 	};
 
-	const deleteList = async (id) => {
-	    await Axios.delete(`/post/${id}`);
+	const deleteList = (id) => {
+	    Axios.delete(`/post/${id}`);
 		setList((prevList) => prevList.filter((post)=> post._id !== id ));
 	};
 
