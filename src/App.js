@@ -27,12 +27,11 @@ const App = () => {
 		e.preventDefault();
 		setText('')
 	};
-	useEffect(() => {
-		Axios.get("/post")
-		.then(res=> {
-			setList(res.data)
-		})
-	}, [List]);
+	const fetchData = () => {
+		Axios.get('/post')
+		.then((res)=> setList(res.data));
+	}
+	fetchData();
 	return (
 		<>
 			<div className="flex justify-center items-center pt-10">
