@@ -5,18 +5,22 @@ import Axios from "./axios";
 const App = () => {
 	const [text, setText] = useState("");
 	const [List, setList] = useState([]);
+	const [UpdateText, setUpdateText] = useState("")
 	const postText = () => {
-	    Axios.post(`/post`, {text})
+	    Axios.post(`/post`, {text : text})
 		.then((res)=> 
 		 setList((prevList)=> [...prevList,res.data])
 		)
+		setText('')
 	};
 
 	const updateList = (id) => {
-	    Axios.put(`/post/${id}`, {text})
+		console.log(id)
+	    Axios.put(`/post/${id}`, {text : UpdateText})
 		.then((res)=> 
 		   setList((prevList)=> prevList.map((post)=> post._id === id ? res.data : post))
 		)
+		setUpdateText('')
 	};
 
 	const deleteList = (id) => {
@@ -44,6 +48,7 @@ const App = () => {
 				<form action="" method="post" onSubmit={handleSubmit}>
 					<input
 						type="text"
+						value={text}
 						className="bg-black text-white rounded-lg py-[7px] w-[300px] mr-2 focus:ring-white"
 						onChange={(e) => setText(e.target.value)}
 					/>
@@ -67,7 +72,7 @@ const App = () => {
 							placeholder=" Update. . . . . "
 							className="bg-black text-white rounded-lg py-[7px] w-[300px] mr-2 focus:ring-white"
 							onChange={(e) => {
-								setText(e.target.value);
+							     setUpdateText(e.target.value);
 							}}
 						/>
 						<button
